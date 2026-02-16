@@ -7,14 +7,14 @@ from pydantic import (
 
 
 class Address(BaseModel):
-    city: str = Field(min_length=2)
-    street: str = Field(min_length=3)
-    house_number: int = Field(gt=0)
+    city: str = Field(..., min_length=2)
+    street: str = Field(..., min_length=3)
+    house_number: int = Field(..., gt=0)
 
 
 class User(BaseModel):
-    name: str = Field(min_length=2, pattern=r'^[A-Za-z ]+$')
-    age: int = Field(ge=0, le=120)
+    name: str = Field(..., min_length=2, pattern=r'^[A-Za-z ]+$')
+    age: int = Field(..., ge=0, le=120)
     email: EmailStr
     is_employed: bool
     address: Address
