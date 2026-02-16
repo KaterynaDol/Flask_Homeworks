@@ -6,6 +6,7 @@ from homework_03 import engine, Base, Category, Product
 
 Base.metadata.create_all(engine)
 
+# Задача 1: Наполнение данными
 with Session(engine) as session:
     electronics = Category(name='Электроника', description='Гаджеты и устройства.')
     books = Category(name='Книги', description='Печатные книги и электронные книги.')
@@ -23,6 +24,7 @@ with Session(engine) as session:
 
     session.commit()
 
+    # Задача 2: Чтение данных
     stmt = select(Category)
     categories = session.execute(stmt).scalars().all()
 
@@ -32,6 +34,7 @@ with Session(engine) as session:
         for product in category.products:
             print(product.name, product.price)
 
+    # Задача 3: Обновление данных
     stmt = (
         select(Product)
         .where(Product.name == "Смартфон")
@@ -52,6 +55,7 @@ with Session(engine) as session:
     smartphone = session.scalars(stmt).first()
     print(f"New price: {smartphone.price}")
 
+    # Задача 4: Агрегация и группировка
     stmt = (
         select(Category.name, func.count(Product.id))
         .join(Product)
@@ -63,7 +67,7 @@ with Session(engine) as session:
     for name, count in result:
         print(f"Category: {name}  |  Count of products: {count}")
 
-
+    # Задача 5: Группировка с фильтрацией
     stmt = (
         select(
             Category.name
@@ -76,4 +80,4 @@ with Session(engine) as session:
     names = session.scalars(stmt).all()
 
     for name in names:
-        print(f"Category with more the one product: {name}")
+        print(f"Category with more than one product: {name}")
